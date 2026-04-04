@@ -1,7 +1,7 @@
 # aws-labs
 <div align="center">
 
-![AWS Logo](https://upload.wikimedia.org/wikipedia/commons/f/fc/Amazon_Web_Services_2025.svg)
+![AWS Logo](https://repository-images.githubusercontent.com/356979740/b7a6f6f2-5693-4166-8406-94bdd0840ccb)
 
 </div>
 
