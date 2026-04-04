@@ -5,4 +5,4 @@
 
 </div>
 
-A codebase of all the AWS labs and projects created in preparation for my AWS certifcations.
+A codebase of all the AWS labs and projects created in preparation for my AWS certifcations. [Currently working towards AWS Certified Solutions Architect - Associate](https://aws.amazon.com/certification/certified-solutions-architect-associate/). 🚀
