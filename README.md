@@ -5,4 +5,7 @@
 
 </div>
 
-A codebase of all the AWS labs and projects created in preparation for my AWS certifcations. [Currently working towards AWS Certified Solutions Architect - Associate](https://aws.amazon.com/certification/certified-solutions-architect-associate/). 🚀
+# Overview
+This repository is a codebase of all the AWS labs and projects created in preparation for my AWS certifcations. [Currently working towards AWS Certified Solutions Architect - Associate](https://aws.amazon.com/certification/certified-solutions-architect-associate/). 🚀
+
+`/stephane-mareek` contains the code examples taken from [Stephane Mareek's AWS Certified Solutions Architect - Associate course](https://utrgv.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/). 
