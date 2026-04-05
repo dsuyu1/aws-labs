@@ -4,17 +4,17 @@ As stated in overview, Part I consists of the basics. We're just setting up the 
 So, without further ado, let's get started! 🚀
 
 # 1. Create a Secret
-![step1](architecture-1.png)
+![step1](images/architecture-1.png)
 
 **Goal**:
 - Create a new Secrets Manager secret.
 
 Simple enough. All I did was create a basic secret without any key rotation scheduling or encryption - we'll set that up in Part II.
 
-![Secret](secret1.png)
+![Secret](images/secret1.png)
 
 # 2. Configure CloudTrail
-![step2](architecture-2.png)
+![step2](images/architecture-2.png)
 
 **Goal**:
 - Create a new CloudTrail trail to record your account's activity.
@@ -24,7 +24,7 @@ I created a new Trail called `nextwork-secrets-manager-trail`. We're going to se
 
 Also, I turned off Log file SSE-KMS encryption. Since this isn't a production architecture, I'll untick the boxes that just incur extra charges. The goal of this project is to learn how to architect without having to pay too much. :)
 
-![cloudtrail1](cloudtrail1.png)
+![cloudtrail1](images/cloudtrail1.png)
 
 Our trail is only set to track **management events**. Management events show admin actions that configure AWS resources. In our case, we're tracking secret accesses. 
 
@@ -35,7 +35,7 @@ Now that we've set the trail up to track management events, we can move on to st
 # 3. Generate Secret Access Events
 After selecting `Retrieve secret value` in the under our secret details page (or accessing it via the CLI), we can go back to CloudTrail to view what it logged.
 
-![cloudtrail2](cloudtrail2.png)
+![cloudtrail2](images/cloudtrail2.png)
 
 # 4. Track Secrets Access Using CloudWatch Metrics
 We've configured CloudTrail tracking, now it's time to set up alerting.
@@ -46,7 +46,7 @@ We've configured CloudTrail tracking, now it's time to set up alerting.
 
 Let's edit the Trail to enable `CloudWatch logs`. 
 
-![cloudtrail3](cloudtrail3.png)
+![cloudtrail3](images/cloudtrail3.png)
 
 The log group represents a collection of logs from a specific application or service. In this case, we're creating a new log group to store CloudTrail logs that came from our CloudTrail trail.
 
@@ -56,7 +56,7 @@ Why did we give it its own role? because we don't want to give CloudTrail unlimi
 
 Navigating to CloudWatch, we can verify that our logs are being ingested.
 
-![cloudwatch](cloudtrail4.png)
+![cloudwatch](images/cloudtrail4.png)
 
 Once we've verified that our logs are being ingested, we can start creating the alert. The difference between CloudTrail and CloudWatch is that CloudWatch is where we can set up alerts and automated responses when specific events happen. Additionally:
 
@@ -73,11 +73,11 @@ Now, back to creating the alert.
 - Our metric value set to `1` and our default value set to `0`.
     - Metrics values get recoreded when the filter hits a match in the logs. When set to `1`, the counter increases exactly. We set the default value to `0` to when there are no secret accesses, we just get a 0 rather than no info at all. It gives us a more complete picture.
 
-![cloudwatch](cloudwatch.png)
+![cloudwatch](images/cloudwatch.png)
 
 # 5. Create CloudWatch Alarm and SNS Topic
 
-![step5](architecture-5.png)
+![step5](images/architecture-5.png)
 
 Amazon Simple Notification Service (SNS) is AWS's built-in messaging system. It lets AWS resources send notifications to people (via email, SMS, or mobile push) or even to other applications.
 
@@ -87,15 +87,15 @@ Amazon Simple Notification Service (SNS) is AWS's built-in messaging system. It 
 - Subscribe your email address to the SNS topic.
 
 
-![Metric filters tab under CloudWatch](metric-filters.png)
+![Metric filters tab under CloudWatch](images/metric-filters.png)
 
 If you select your filter, you can **create an alarm**.
 
-![Alarm creation page](alarms.png)
+![Alarm creation page](images/alarms.png)
 
 Next:
 
-![Configuring the alarm](configuring-actions.png)
+![Configuring the alarm](images/configuring-actions.png)
 
 Once we've accepted the confirmation email to join the alarm, we can move to the next step and text to see if our email notification systems works as expected.
 
@@ -105,7 +105,7 @@ Once we've accepted the confirmation email to join the alarm, we can move to the
 - Retrieve your secret value again to trigger the alarm.
 - Troubleshoot your monitoring system - why aren't you getting notified?
 
-![step6](architecture-6.png)
+![step6](images/architecture-6.png)
 
 After navigating to Secrets Manager and revealing the secret, it looks like we haven't received an email. And we never will. It's time for troubleshooting! There are several places we should investigate as there are multiple points of failure:
 
@@ -117,13 +117,13 @@ After navigating to Secrets Manager and revealing the secret, it looks like we h
 
 First things first: check if CloudTrail actually recorded the event.
 
-![Debugging Cloudtrail](debug1.png)
+![Debugging Cloudtrail](images/debug1.png)
 
 It looks like CloudTrail is successfully logging events from Secrets Manager.
 
 Second, check if CloudTrail is sending logs to CloudWatch.
 
-![Debugging CloudWatch](debug2.png)
+![Debugging CloudWatch](images/debug2.png)
 
 No issues here. We can see that CloudWatch is ingesting logs just fine.
 
@@ -160,7 +160,7 @@ You'll have to trust me on this, but I _did_ receive an email, so our alarm _can
 
 Our investigation leads me to believe that the alarm settings in CloudWatch were the only thing that was off. Let's head back to the Secrets Manager now that we've fixed the issues.
 
-![Success!](success!.png)
+![Success!](images/success!.png)
 
 And voila! We received the email, and our alarm successfully went off.
 
@@ -176,7 +176,7 @@ So what did we do? In this introductory project, I learned how to:
 
 In Part II, I'll build upon this foundation and start getting _real_ creative with AWS. That is, no more hand-holding! From this point on, all of this will be original work, with troubleshooting, bad practice, and lots of failing. 
 
-![Finished product](architecture-complete.png)
+![Finished product](images/architecture-complete.png)
 
 <div align="center">
     <small> Finished product. </small>
